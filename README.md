@@ -133,3 +133,63 @@ After assigning the static IP `10.0.0.2` with gateway `10.0.0.1`, the Kali VM co
 | 8 | Documentation of the fix | Step 10 | Snapshot with problem/solution description |
 
 **Result:** all task requirements are met — Kali sits at `10.0.0.2/24` on the `NatNetwork 10.0.0.0/24`, with bidirectional clipboard/drag-drop, the auto-mounted `sf_Downloads` shared folder, and verified full Internet access (DNS + ICMP + HTTPS).
+
+## 8. Commands Ran
+**Inside Kali (attacker VM) — complete list, in order of use:**
+
+```bash
+# 1. First connectivity test — FAILED: "Temporary failure in name resolution" (S3)
+ping google.com
+
+# 2. Troubleshooting Attempt 1: manual DNS override — FAILED, no route existed (S3)
+sudo nano /etc/resolv.conf          # added: nameserver 8.8.8.8
+
+# 3. Prove the Layer-3 fault — FAILED: Destination Host Unreachable (S3)
+ping 8.8.8.8
+
+# 4. Set the static IPv4 profile: 10.0.0.2/24, gw 10.0.0.1, DNS 8.8.8.8 (S5)
+nm-connection-editor
+
+# 5. Bounce the NIC so the new profile takes effect (the fix)
+sudo ifconfig eth0 down
+sudo ifconfig eth0 up
+
+# 6. Verify addressing — expect: eth0 inet 10.0.0.2/24, state UP (S2)
+ip a
+
+# 7. Verify DNS + reachability — expect: google.com resolves, 0% packet loss (S2)
+ping google.com
+
+# 8. Shared-folder access for sf_Downloads (Step 6)
+sudo usermod -aG vboxsf kali
+
+# 9. Route/DNS checks used during troubleshooting (Section 5)
+ip route                            # expect: default via 10.0.0.1 dev eth0
+cat /etc/resolv.conf
+```
+
+Optional CLI alternative to #4 (the GUI editor was used instead):
+
+```bash
+sudo nmcli connection modify "Wired connection 1" ipv4.method manual \
+  ipv4.addresses 10.0.0.2/24 ipv4.gateway 10.0.0.1 ipv4.dns 8.8.8.8
+sudo nmcli connection up "Wired connection 1"
+```
+
+**On the host (VirtualBox Manager, GUI):**
+
+- Tools → **Network Manager → NAT Networks** → create `NatNetwork` `10.0.0.0/24`, DHCP enabled 
+- VM **Settings** → Network / General → Advanced / Shared Folders *(Steps 4–6)*
+- **Snapshots → Take** to record the known-good state 
+
+---
+
+## 9. Author
+
+**Author:** Faiza Khalid
+Cybersecurity Trainee — Networkwalks (Batch B083D)
+
+GitHub: https://github.com/Faiza-Khalid ·
+LinkedIn: www.linkedin.com/in/faiza-k-11a626343
+
+**Credits:** Program guidance — Sir Waqas Karim (CCIE) & the Networkwalks team.
