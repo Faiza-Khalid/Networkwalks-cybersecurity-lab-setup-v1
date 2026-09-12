@@ -89,7 +89,7 @@ After assigning the static IP `10.0.0.2` with gateway `10.0.0.1`, the Kali VM co
 - In a terminal run `ip a`; expect `eth0 … inet 10.0.0.2/24 brd 10.0.0.255 scope global … state UP` 
 - 🔐 **Cyber logic:** Baseline the stack bottom-up (OSI model): confirm link state and addressing **before** blaming DNS or applications. This is the same discipline used mid-operation when verifying whether a pivot or C2 channel died at L2/L3 or higher up.
  — Verify full Internet: DNS + ICMP + HTTPS
-- `ping google.com` → expect the name to **resolve** (e.g. `142.250.202.14`) with **0% packet loss** — S2 shows 7/7 received.
+- `ping google.com` → expect the name to **resolve** (e.g. `142.250.202.14`) with **0% packet loss** — provided pictue shows 7/7 received.
   
 - <img width="960" height="504" alt="S1" src="https://github.com/user-attachments/assets/7dcce95a-dda1-49f9-99cc-a35f93a3db62" />
 
