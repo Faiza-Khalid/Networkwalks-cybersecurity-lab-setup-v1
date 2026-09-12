@@ -2,7 +2,6 @@
 Kali Linux Attack Lab on Oracle VirtualBox
 # README — Kali Linux Attack Lab on Oracle VirtualBox
 ### Private subnet `10.0.0.0/24` · NATNetwork · Static IP `10.0.0.2/24` · Full Internet Access
-*Evidence screenshots: S1–S5 (referenced per step)*
 
 ---
 
