@@ -79,7 +79,7 @@ After assigning the static IP `10.0.0.2` with gateway `10.0.0.1`, the Kali VM co
 <img width="587" height="388" alt="image" src="https://github.com/user-attachments/assets/843cd010-0cb2-4fc8-a7de-1cccabeb2e8f" />
 
 - In Kali run `nm-connection-editor` → **Wired connection 1** → **IPv4 Settings** tab → **Method: Manual**.
-- **Address:** `10.0.0.2` · **Netmask:** `24` · **Gateway:** `10.0.0.1` · **DNS servers:** `8.8.8.8` → **Save**, then reconnect the connection *(S5 shows this exact profile)*.
+- **Address:** `10.0.0.2` · **Netmask:** `24` · **Gateway:** `10.0.0.1` · **DNS servers:** `8.8.8.8` → **Save**, then reconnect the connection.
 - 🔐 **Cyber logic:** An attack box needs a *stable identity*. Reverse shells, listener configs, scan reports and target-side artifacts all reference the attacker IP; a DHCP-drifting address breaks reproducibility and engagement documentation. A pinned `10.0.0.2` also lets you write precise scope/firewall rules, and `8.8.8.8` keeps name resolution independent of the lab DHCP lease.
 
 <img width="960" height="504" alt="S4" src="https://github.com/user-attachments/assets/72f598a2-97a4-4140-a892-d04783d64107" />
@@ -124,12 +124,12 @@ After assigning the static IP `10.0.0.2` with gateway `10.0.0.1`, the Kali VM co
 | # | Requirement | Where it is satisfied | Evidence |
 |---|---|---|---|
 | 1 | VirtualBox base, latest recommended | Step 1 | Oracle VirtualBox Manager in all screenshots |
-| 2 | Kali as attacker machine | Step 2 | `kali@kali` prompt / VM name (S2, S5) |
-| 3 | NATNetwork `10.0.0.0/24` | Steps 3–4 | NatNetwork, prefix `10.0.0.0/24`, DHCP Enabled (S1) |
+| 2 | Kali as attacker machine | Step 2 | `kali@kali` prompt / VM name  |
+| 3 | NATNetwork `10.0.0.0/24` | Steps 3–4 | NatNetwork, prefix `10.0.0.0/24`, DHCP Enabled  |
 | 4 | Clipboard & drag/drop | Step 5 | Settings → General → Advanced = Bidirectional |
-| 5 | Shared `/downloads` folder | Step 6 | `sf_Downloads` on Kali desktop (S5) |
-| 6 | Static IP `10.0.0.2/24` | Steps 7–8 | Manual IPv4 profile (S5) + `ip a` (S2) |
-| 7 | Full Internet access | Step 9 | `ping google.com` 0% loss (S2) + Google search in Firefox (S4) |
-| 8 | Documentation of the fix | Step 10 | Snapshot with problem/solution description (S3) |
+| 5 | Shared `/downloads` folder | Step 6 | `sf_Downloads` on Kali desktop |
+| 6 | Static IP `10.0.0.2/24` | Steps 7–8 | Manual IPv4 profile (S5) + `ip a`|
+| 7 | Full Internet access | Step 9 | `ping google.com` 0% loss (S2) + Google search in Firefox |
+| 8 | Documentation of the fix | Step 10 | Snapshot with problem/solution description |
 
 **Result:** all task requirements are met — Kali sits at `10.0.0.2/24` on the `NatNetwork 10.0.0.0/24`, with bidirectional clipboard/drag-drop, the auto-mounted `sf_Downloads` shared folder, and verified full Internet access (DNS + ICMP + HTTPS).
